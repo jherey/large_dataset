@@ -1,11 +1,12 @@
 const fs = require('fs');
 // The Readline module provides a way of reading a datastream, one line at a time.
 const readline = require('readline');
-const stream = require('stream');
 
-const inputStream = fs.createReadStream('test.txt');
-const outputStream = new stream();
-const rl = readline.createInterface(inputStream, outputStream);
+const rl = readline.createInterface({
+  input: fs.createReadStream(`${__dirname}/indiv18/by_date/itcont_2018_20020411_20170529.txt`),
+  // input: fs.createReadStream(`${__dirname}/indiv18/itcont.txt`),
+  // crlfDelay: Infinity,
+});
 
 // get line count for file
 let lineCount = 0;
@@ -18,7 +19,7 @@ rl.on('line', function(line) {
   lineCount++;
 
   // get all names
-  const name = line.split('|')[7];
+  const name = line.split('|')[7].trim();
   if (lineCount === 431 || lineCount === 43242) {
     names.push(name);
   }
