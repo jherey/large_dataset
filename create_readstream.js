@@ -14,6 +14,9 @@ let lineCount = 0;
 // create array list of names
 const names = [];
 
+// donations occuring in each month
+const donationsMap = new Map();
+
 rl.on('line', function(line) {
   // increment line count
   lineCount++;
@@ -23,6 +26,13 @@ rl.on('line', function(line) {
   if (lineCount === 431 || lineCount === 43242) {
     names.push(name);
   }
+
+  // year and month
+  const timestamp = line.split('|')[4].slice(0, 6);
+  const formattedTimestamp = `${timestamp.slice(0, 4)}-${timestamp.slice(4, 6)}`;
+  donationsMap.has(formattedTimestamp)
+    ? donationsMap.set(formattedTimestamp, donationsMap.get(formattedTimestamp) + 1)
+    : donationsMap.set(formattedTimestamp, 1)
 });
 
 rl.on('close', function() {
@@ -32,4 +42,7 @@ rl.on('close', function() {
   // names at various points in time
   console.log('432nd name: ', names[0]);
   console.log('43243rd name: ', names[1]);
+
+  // number of donations in each month
+  console.log('Number of donations: ', donationsMap);
 });
